@@ -35,8 +35,7 @@ jobs:
         name: app.jar
         path: target/spring-petclinic-backend-*.jar
         
-  Build Docker Image and publish to ECR:
-    name: build-and-push-docker-image
+  build-and-push-docker-image:
     
     runs-on: ubuntu-latest
     
