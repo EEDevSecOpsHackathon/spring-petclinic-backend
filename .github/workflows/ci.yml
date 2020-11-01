@@ -29,13 +29,13 @@ jobs:
     - name: Run Test
       run: ./mvnw clean test
     - name: Build
-    - run: ./mvnw clean -B package --file pom.xml -Dmaven.test.skip=true
+      run: ./mvnw clean -B package --file pom.xml -Dmaven.test.skip=true
     - uses: actions/upload-artifact@master
       with:
         name: app.jar
         path: target/spring-petclinic-backend-*.jar
         
-  build-and-push-docker-image:
+  docker-build-and-push:
     
     runs-on: ubuntu-latest
     
