@@ -3,7 +3,8 @@
 replicaCount: 1
 
 image:
-  repository: 038062473746.dkr.ecr.us-east-1.amazonaws.com/team-github-action/spring-petclinic-backend
+  #TODO: need to fixed the image upload issue for team-github-action/spring-petclinic-backend
+  repository:  038062473746.dkr.ecr.us-east-1.amazonaws.com/harness-petclinic-backend
   tag: latest
   pullPolicy: IfNotPresent
 
