@@ -47,11 +47,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: check aws
-        run: aws eks list-clusters
-#       - name: helm deploy
-#         uses: koslibpro/helm-eks-action@master
-#         env:
-#           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-#         with:
-#           command: helm upgrade spring-petclinic-backend --install --wait spring-petclinic-frontend/ -f configuration/values.dev.yaml
+        run: aws eks update-kubeconfig --region us-east-1 --name basic-cluster --role-arn arn:aws:iam::038062473746:role/CICDHackathon
+      - name: helm deploy
+        uses: koslibpro/helm-eks-action@master
+        with:
+          command: helm status spring-petclinic-backend -n github-action #helm upgrade spring-petclinic-backend --install --wait spring-petclinic-frontend/ -f configuration/values.dev.yaml
 
