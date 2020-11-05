@@ -5,9 +5,9 @@ name: Spring-Petclinic-Backend-CICD
 
 on:
   push:
-    branches: [ dockerized-backend ]
+    branches: [ master ]
   pull_request:
-    branches: [ dockerized-backend ]
+    branches: [ master ]
 
 jobs:
   ci-cd:
