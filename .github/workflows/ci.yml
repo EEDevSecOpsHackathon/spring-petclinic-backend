@@ -40,3 +40,15 @@ jobs:
           region: us-east-1
           tags: latest,${{ github.sha }}
           create_repo: true
+      - name: helm-deploy
+        uses: peymanmortazavi/eks-helm-deploy@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS__KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+          cluster-name: basic-cluster
+          cluster-role-arn: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/CICDHackathon
+          config-files: configuration/dev.values.yaml
+          namespace: github-action
+          chart-path: spring-petclinic-backend/
+          name: spring-petclinic-backend
