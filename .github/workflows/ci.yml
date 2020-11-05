@@ -43,10 +43,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+
       - name: helm-deploy-staging
         uses: koslibpro/helm-eks-action@master
         env:  
             KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
           command: helm upgrade spring-petclinic-backend --namespace github-action-staging --create-namespace --install --wait spring-petclinic-backend/ -f configuration/values.staging.yaml
+
+      - name: helm-deploy-production
+        uses: koslibpro/helm-eks-action@master
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+        with:
+          command: helm upgrade spring-petclinic-backend --namespace github-action-prodcution --create-namespace --install --wait spring-petclinic-backend/ -f configuration/values.production.yaml
 

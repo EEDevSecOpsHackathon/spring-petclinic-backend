@@ -1,0 +1,35 @@
+apiVersion: v1
+clusters:
+  - cluster:
+      certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUN5RENDQWJDZ0F3SUJBZ0lCQURBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwcmRXSmwKY201bGRHVnpNQjRYRFRJd01URXdNakExTVRneU4xb1hEVE13TVRBek1UQTFNVGd5TjFvd0ZURVRNQkVHQTFVRQpBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS0tKCmlUV2ZnaVVnWkxDTG5Qc1k1WTB2RjBPdmh1UjdaMThsSkR0QTFXbzZHdXpMV1ZWdEsydlpQS0U2ME1Za2R0MjcKWXdLcEtnTUxBc2R2ZXpDSTZEdkRtTG5URWE1YXd5UVB3RGZXK1VQbXU3dmV5bllrYmk4VHFqMGpuQkF1WGRrUAo0bjRyczExd3NKT0VkcFp2eCtHd0lXck1tNktpVThYNllvS29nbzdSMnZnazk1ZWJPamdNb3hiSXlHbjU2dkk5CjlBTVg0K2p1bEQ0MkJvWXdWclpCbXRpWkxCZERIcmNiU3BobHVrYVdteHVqRWdKK25ZOHQxaGdIcmdNTkc4NkMKYnQ0YW1QZ0EwT0JPYnNLVEtZWk5pU0IwcUJabG5IVmhKaHdLbkNZTHpEeWh4aDFLb29Pb0p5MnhCSERoK2IyUApTR3l5Zm9Nd1VQRlJZZUtVckdzQ0F3RUFBYU1qTUNFd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWRFd0VCCi93UUZNQU1CQWY4d0RRWUpLb1pJaHZjTkFRRUxCUUFEZ2dFQkFJaEhPYjI2TjhmMnVlMHRzZWdQNXFQaFBnaVcKZHk3RW4vWTZ3L2tMZW5ZN1BjNXJnZDM2YzA5eEZJMWVSYnpKcktxZy9YSWJkdnR6RXo1bENFSS8rVnJkRFhkYQpYZXBVYmxxcDlUcWsxNVhYYndYQmRzekNZelE3YUZEeGFMN2luTURyMCtFMHpYak5GMnEwbXo0Z0JiR3J4bFhXCkM1UGw4STNpcU9HeWgwNlFVVUJSOW1xb0FiajJrS08ycGhMWmlxc0NTNG5lS1RFQ2w0RzF5V0YvM0tudjJFOUkKdW1abEZ4SWtncEcxTnRpeUFDMVpQMWFFNExKU3JPN1UrQkk1VjQ4TWw4cWdLMUhmQjBrL3BWQWdxcUtseWptcwptRnZ3WkFTZjdHbGE1SU5uQmEzcm5Sa1phNjZIVFZqaUZvMkFjWHdxbU5pY0Y5cFRIUHRjbG1DUmZPWT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+      server: https://6F00ADA70CE274A6A9281ED67EE4D45B.gr7.us-east-1.eks.amazonaws.com
+    name: arn:aws:eks:us-east-1:{{accunt-id}}:cluster/basic-cluster
+contexts:
+  - context:
+      cluster: arn:aws:eks:us-east-1:{{accunt-id}}:cluster/basic-cluster
+      user: arn:aws:eks:us-east-1:{{accunt-id}}:cluster/basic-cluster
+    name: arn:aws:eks:us-east-1:{{accunt-id}}:cluster/basic-cluster
+current-context: arn:aws:eks:us-east-1:{{accunt-id}}:cluster/basic-cluster
+kind: Config
+preferences: {}
+users:
+
+  - name: arn:aws:eks:us-east-1:{{accunt-id}}:cluster/basic-cluster
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1alpha1
+        args:
+          - --region
+          - us-east-1
+          - eks
+          - get-token
+          - --cluster-name
+          - basic-cluster
+          - --role
+          - arn:aws:iam::{{accunt-id}}:role/CICDHackathon
+        command: aws
+        env:
+          - name: AWS_STS_REGIONAL_ENDPOINTS
+            value: regional
+          - name: AWS_DEFAULT_REGION
+            value: us-east-1
