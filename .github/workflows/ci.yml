@@ -13,20 +13,40 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+
       - name: Cache Maven packages
         uses: actions/cache@v2
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Run Test
         run: ./mvnw clean test
+
       - name: Build
         run: ./mvnw clean -B package --file pom.xml -Dmaven.test.skip=true
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - name: increment-semantic-version
+        run: ./scripts/release.sh ${{ steps.extract_branch.outputs.branch }}
+
+      - name: Retrieve version
+        run: |
+          echo ::set-env name=TAG_NAME::$(cat build.version | sed 's/.*version=\(.*\).*/\1/')
+
+      - name: get-tag-test
+        run: echo "version-test:" ${{ env.TAG_NAME }}
+
       - name: Docker Build and Push
         uses: kciter/aws-ecr-action@master
         with:
@@ -37,6 +57,7 @@ jobs:
           region: us-east-1
           tags: latest,${{ github.sha }}
           create_repo: true
+
       - name:  Configure-AWS-Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
